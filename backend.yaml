@@ -19,7 +19,7 @@
     loop:
     - nodejs
     - mysql
-
+    
   - name: create expense user #using user module will takes care of idempotency 
     ansible.builtin.user:
       name: expense
@@ -54,6 +54,7 @@
     ansible.builtin.pip:
       name:
       - PyMySQL
+      - cryptography
       executable: pip3.9
 
   - name: import mysql data #using community module
