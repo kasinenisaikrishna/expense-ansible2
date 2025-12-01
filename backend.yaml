@@ -12,7 +12,7 @@
   - name: enable nodejs 20
     ansible.builtin.command: dnf module enable nodejs:20 -y
 
-  - name: install nodejs
+  - name: install nodejs ans mysql client #mysql client to connect to mysql database
     ansible.builtin.package:
       name: "{{ item }}"
       state: present
@@ -20,7 +20,7 @@
     - nodejs
     - mysql
 
-  - name: create expense user
+  - name: create expense user #using user module will takes care of idempotency 
     ansible.builtin.user:
       name: expense
 
@@ -56,11 +56,11 @@
       - PyMySQL
       executable: pip3.9
 
-  - name: import mysql data
+  - name: import mysql data #using community module
     community.mysql.mysql_db:
       login_user: root
       login_password: "{{ mysql_root_password }}"
       login_host: "{{ login_host }}"
       target: /app/schema/backend.sql
       name: all
-      state: dump
+      state: import
